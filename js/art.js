@@ -103,19 +103,19 @@ const SUPERFX=(()=>{const o=(rows,pal)=>outline(mk(rows,pal));return{
 
 /* ---------- foods ---------- */
 const FOODS=[
-{n:'CRANBERRY',col:'#c2334a',dmg:6,spd:5.5,vy:-1,grav:.06,cd:16,sp:'sticky',d:['Sticky! Slows','foe for 2 sec'],pal:{r:'#8e1b2e',R:'#c2334a',w:'#ffd0d8'},
+{n:'CRANBERRY',col:'#c2334a',dmg:6,spd:5.5,vy:-1,grav:.06,cd:26,sp:'sticky',d:['Sticky! Slows','foe for 1 sec'],pal:{r:'#8e1b2e',R:'#c2334a',w:'#ffd0d8'},
  icon:["........","..rrrr..",".rRRwRr.",".rRRRRr.",".rRRRRr.",".rrRRrr.","..rrrr..","........"]},
-{n:'MASH POTATO',col:'#efe6cf',dmg:14,spd:3.4,vy:-3.4,grav:.2,cd:40,sp:'splash',d:['Big lob. Splashes','on the ground'],pal:{c:'#efe6cf',C:'#cfc2a2',y:'#f5d142'},
+{n:'MASH POTATO',col:'#efe6cf',dmg:14,spd:3.4,vy:-3.4,grav:.2,cd:32,sp:'splash',d:['Big lob. Splashes','on the ground'],pal:{c:'#efe6cf',C:'#cfc2a2',y:'#f5d142'},
  icon:["........","...yy...","..cyyc..",".cccccc.","cccCcccc","cCccccCc",".CCCCCC.","........"]},
 {n:'PUMPKIN PIE',col:'#d9641e',dmg:11,spd:4.5,vy:-1.8,grav:.1,cd:30,sp:'knock',d:['Knocks foe back','into the air'],pal:{t:'#e0a85a',T:'#a8662b',o:'#d9641e'},
  icon:["........","t.......","tto.....","tooo....","toooo...","tooooo..","TTTTTTT.","........"]},
-{n:'DRUMSTICK',col:'#9a5226',dmg:17,spd:3.2,vy:-2.4,grav:.13,cd:55,sp:'stun',d:['Heavy hit that','stuns briefly'],pal:{m:'#9a5226',M:'#c97a3a',w:'#f4efe6'},
+{n:'DRUMSTICK',col:'#9a5226',dmg:17,spd:3.2,vy:-2.4,grav:.13,cd:45,sp:'stun',d:['Heavy hit that','stuns briefly'],pal:{m:'#9a5226',M:'#c97a3a',w:'#f4efe6'},
  icon:["........","..MMm...",".MMMmm..",".MMmmm..","..mmmm..","....mww.",".....ww.","....w.ww"]},
-{n:'HOT GRAVY',col:'#8a5a2b',dmg:5,spd:4,vy:-2.6,grav:.16,cd:34,sp:'burn',d:['Scalding! Burns','over time'],pal:{g:'#6a3e1a',G:'#9a622e',w:'#e0b080'},
+{n:'HOT GRAVY',col:'#8a5a2b',dmg:8,spd:4,vy:-2.6,grav:.16,cd:30,sp:'burn',d:['Scalding! Burns','over time'],pal:{g:'#6a3e1a',G:'#9a622e',w:'#e0b080'},
  icon:["...w....","..w.w...","...gg...","..gGwg..",".gGGGGg.",".gGGGGg.","..gggg..","........"]},
-{n:'CORN COB',col:'#f5d142',dmg:5,spd:5,vy:-1.2,grav:.08,cd:44,sp:'spread',d:['Fires 3 kernels','in a spread'],pal:{y:'#f5d142',Y:'#d4a51c',g:'#5a9a3a'},
+{n:'CORN COB',col:'#f5d142',dmg:5,spd:5,vy:-1.2,grav:.08,cd:54,sp:'spread',d:['Fires 3 kernels','in a spread'],pal:{y:'#f5d142',Y:'#d4a51c',g:'#5a9a3a'},
  icon:["........","........","gyYyYyY.","ggyYyYyy","gyYyYyY.","........","........","........"]},
-{n:'STUFFING',col:'#b07a3b',dmg:8,spd:4,vy:-2,grav:.12,cd:36,sp:'steal',d:['Steals health','back for you'],pal:{b:'#8a5a2b',B:'#b07a3b',g:'#4f8a3a'},
+{n:'STUFFING',col:'#b07a3b',dmg:10,spd:4,vy:-2,grav:.12,cd:34,sp:'steal',d:['Steals health','back for you'],pal:{b:'#8a5a2b',B:'#b07a3b',g:'#4f8a3a'},
  icon:["........","..bBg...",".BbbBb..","bgBbbgB.","BbbBbbbb",".bBgbBb.","........","........"]}];
 for(const f of FOODS)f.img=outline(mk(f.icon,f.pal,8));
 
