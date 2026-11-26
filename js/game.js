@@ -102,9 +102,9 @@ function blockMulOf(t){return t.c.blockMul!==undefined?t.c.blockMul:.25}
 function blockFx(t){popup(t.x,t.y-58,'BLOCK','#9fd8ff');sfx(1100,.06,'square',.04);for(let k=0;k<6;k++)part(t.x+t.face*16,t.y-26,t.face*Math.random()*2,rnd2(1.5),'#ffffff',14)}
 function hitP(t,q,mul){const f=q.f,own=pl[q.o],dir=Math.sign(q.vx)||own.face;let d=f.dmg*own.c.pow*(mul||1);const blk=t.block&&t.face===-dir;
  if(blk){d*=blockMulOf(t);t.stam=Math.max(0,t.stam-12*(t.c.stamMul||1));blockFx(t);if(!q.sup)gain(own,5);gain(t,3)}
- else{if(f.sp==='sticky')t.slow=120;else if(f.sp==='knock'){t.vx=dir*5;t.vy=-3;t.ground=false;t.kb=22}else if(f.sp==='stun')t.stun=28;else if(f.sp==='burn')t.burn=150;
+ else{if(f.sp==='sticky')t.slow=60;else if(f.sp==='knock'){t.vx=dir*5;t.vy=-3;t.ground=false;t.kb=22}else if(f.sp==='stun')t.stun=45;else if(f.sp==='burn')t.burn=Math.min(300,t.burn+150);
   else if(f.sp==='steal'){const h=Math.round(d*.6);own.hp=Math.min(own.max,own.hp+h);popup(own.x,own.y-50,'+'+h,'#7ee07a')}
-  t.vx+=dir*1.2;if(Math.random()<.45)popup(t.x,t.y-62,QUIPS[Math.floor(Math.random()*QUIPS.length)],'#ffd34a');sfx(140,.16,'sawtooth',.05,-70);if(!q.sup)gain(own,12);gain(t,6)}
+  t.vx+=dir*1.2;if(Math.random()<.45)popup(t.x,t.y-62,QUIPS[Math.floor(Math.random()*QUIPS.length)],'#ffd34a');sfx(140,.16,'sawtooth',.05,-70);if(!q.sup)gain(own,Math.round(4+d*.6));gain(t,6)}
  d=Math.max(1,Math.round(d));hurt(t,d);splat(q.x,q.y,f.col,q.sup?6:14);freeze=Math.max(freeze,blk?2:(q.sup?2:4));shake=Math.max(shake,blk?1:3);rumble(t.i,blk?60:150,blk?.3:.8)}
 // generic super damage: o={knock,burn,stun,col}
 function superHit(t,own,d,dir,o){if(phase!=='play'||t.hp<=0)return false;o=o||{};const blk=t.block&&t.face===-dir;
@@ -319,7 +319,7 @@ function renderFoods(){ctx.drawImage(MENU,0,0);TO('PACK YOUR PLATE: PICK 3',160,
  for(let i=0;i<2;i++){if(cpu&&i===1)continue;const x=21+sel.f[i]*40;cursorBox(x,20,38,38,i,false)}
  for(let i=0;i<2;i++){const L=sel.picks[i],x0=panel(i,64,112);if(cpu&&i===1){T('CPU PLATE',x0+6,70,PCOL[1]);L.forEach((k,j)=>{const f=FOODS[k];ctx.drawImage(f.img,x0+6,84+j*24,20,20);T(f.n,x0+32,90+j*24,'#f4e9d8')});T('READY!',x0+6,162,'#7ee07a');continue}
   const f=FOODS[sel.f[i]];T(f.n,x0+6,70,PCOL[i]);
-  T('DMG',x0+6,84,'#c9b8a6');bar(x0+40,85,104,5,f.dmg*(f.sp==='spread'?3:1)/18,'#ff6a5a');T('SPD',x0+6,95,'#c9b8a6');bar(x0+40,96,104,5,f.spd/6,'#6ec8ff');T('RLD',x0+6,106,'#c9b8a6');bar(x0+40,107,104,5,1-f.cd/60,'#7ed957');
+  T('DMG',x0+6,84,'#c9b8a6');bar(x0+40,85,104,5,f.dmg*(f.sp==='spread'?2:1)/18,'#ff6a5a');T('SPD',x0+6,95,'#c9b8a6');bar(x0+40,96,104,5,f.spd/6,'#6ec8ff');T('RLD',x0+6,106,'#c9b8a6');bar(x0+40,107,104,5,1-f.cd/60,'#7ed957');
   T(f.d[0],x0+6,119,'#f4e9d8');T(f.d[1],x0+6,129,'#f4e9d8');
   for(let k=0;k<3;k++){const x=x0+6+k*22;R(ctx,x,142,20,20,INK);R(ctx,x+1,143,18,18,'#3d2440');if(L[k]!==undefined)ctx.drawImage(FOODS[L[k]].img,x+1,143,18,18)}
   T(L.length<3?'PICK '+(3-L.length):(frame%40<28?'READY!':''),x0+76,148,L.length<3?'#c9b8a6':'#7ee07a')}}
