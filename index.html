@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Stuffed &amp; Furious: a Thanksgiving food fight</title>
+<meta name="description" content="Stuffed &amp; Furious is a goofy 16-bit Thanksgiving fighting game for two players. Pack your plate, pick an arena and hurl pie, gravy and drumsticks at your cousin. Keyboard or USB controllers, right in the browser.">
+<meta name="theme-color" content="#1b1020">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Stuffed &amp; Furious">
+<meta property="og:description" content="A goofy 16-bit Thanksgiving food brawl for two players. Pie to the face, gravy burns, best of 3.">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rubik:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* VOICE: goofy cartoon brawl, loud and warm
+   IDEA: a 16-bit arcade cabinet carved from Grandma's oak dining hutch
+   PICTURE: the game canvas itself, pixel-scaled, in a wooden bezel
+   COLOUR and TYPE: harvest plum night, oak brown, pumpkin orange accent; Press Start 2P + Rubik
+   LAYOUT: wordmark, cabinet first, then how-to and controls cards */
+:root{color-scheme:dark;--bg:#1b1020;--ink:#f6ead6;--mute:#c9b8a6;--oak:#7a4322;--oak2:#9a5a2c;--oak3:#c27a42;--oakd:#3d200f;--acc:#f2a03d;--accd:#9a4f12;--p1:#ffd34a;--p2:#6ec8ff;--card:#28162c;--line:#3e2440}
+*{box-sizing:border-box;min-width:0}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);background-image:radial-gradient(120% 70% at 50% 0%,#36192f 0%,var(--bg) 65%);color:var(--ink);font:16px/1.55 Rubik,system-ui,sans-serif;overflow-x:clip;min-height:100vh}
+a{color:var(--acc)}
+.wrap{max-width:1020px;margin:0 auto;padding:0 max(4vw,12px)}
+
+/* header wordmark */
+header{padding-top:22px;padding-bottom:14px;display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px}
+.brand{display:flex;align-items:center;gap:14px}
+.brand svg{width:clamp(40px,8vw,60px);height:auto;flex:none;image-rendering:pixelated;filter:drop-shadow(3px 3px 0 #0008)}
+h1{font:clamp(18px,4.6vw,36px)/1.15 "Press Start 2P",monospace;margin:0;color:var(--acc);letter-spacing:.02em;text-shadow:2px 2px 0 #7a2c12,4px 4px 0 #5a1c14,6px 6px 0 #2a0c10;transform:rotate(-1.5deg)}
+h1 .amp{color:var(--ink);font-size:.8em}
+header p{margin:0;color:var(--mute);flex:1 1 260px}
+
+/* cabinet */
+.cab{position:relative;padding:clamp(8px,2vw,18px);border-radius:14px 14px 10px 10px;
+  background:
+   repeating-linear-gradient(90deg,#0000 0 22px,#0000000f 22px 24px,#0000 24px 61px,#ffffff08 61px 63px),
+   linear-gradient(180deg,var(--oak2),var(--oak));
+  box-shadow:inset 0 4px 0 var(--oak3),inset 4px 0 0 #b06a36,inset -4px 0 0 #5a2f16,inset 0 -6px 0 var(--oakd),0 0 0 3px #24130b,0 24px 50px #0009}
+.marquee{display:flex;align-items:center;justify-content:center;gap:12px;margin:0 0 clamp(8px,1.6vw,14px);padding:8px 12px;background:#2a1408;border:3px solid #24130b;border-radius:6px;box-shadow:inset 0 0 0 2px #5a2f16,inset 0 0 18px #f2a03d33}
+.marquee b{font:clamp(10px,2.2vw,16px)/1.2 "Press Start 2P",monospace;color:#ffd08a;text-shadow:0 0 6px #f2a03d,2px 2px 0 #5a1c14;text-align:center}
+.marquee i{width:8px;height:8px;background:var(--acc);box-shadow:0 0 6px var(--acc);flex:none}
+.screen{position:relative;border:5px solid #24130b;border-radius:6px;background:#000;box-shadow:inset 0 0 0 2px #000,0 0 0 3px #5a2f16,0 0 0 5px #b06a36}
+canvas{display:block;width:100%;aspect-ratio:16/9;image-rendering:pixelated;image-rendering:crisp-edges;outline:none}
+.scan{position:absolute;inset:0;pointer-events:none;border-radius:2px;
+  background:repeating-linear-gradient(180deg,#0000 0 2px,#00000038 2px 3px),radial-gradient(130% 120% at 50% 50%,#0000 60%,#0007 100%)}
+.screen.noscan .scan{display:none}
+.screen:fullscreen{border:0;border-radius:0;display:flex;align-items:center;justify-content:center;width:100vw;height:100vh;box-shadow:none}
+.screen:fullscreen canvas{width:min(100vw,177.78vh);height:auto}
+.screen:-webkit-full-screen{border:0;display:flex;align-items:center;justify-content:center;width:100vw;height:100vh}
+.screen:-webkit-full-screen canvas{width:min(100vw,177.78vh);height:auto}
+
+.bar{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;justify-content:space-between;margin-top:12px;padding:8px 10px;background:#2a1408;border:3px solid #24130b;border-radius:6px;box-shadow:inset 0 0 0 2px #5a2f16;font-size:14px;color:#f3dcc0}
+.pads{display:flex;flex-wrap:wrap;gap:6px 18px}
+.pads span{display:flex;gap:8px;align-items:center;overflow-wrap:anywhere}
+.dot{width:10px;height:10px;background:#6b4a3a;flex:none;box-shadow:inset -2px -2px 0 #0004}
+.dot.on{background:#7ee07a;box-shadow:0 0 8px #7ee07a}
+.btns{display:flex;flex-wrap:wrap;gap:8px}
+button{font:11px/1.2 "Press Start 2P",monospace;color:#2a140a;background:var(--acc);border:0;border-radius:6px;padding:10px 14px;min-height:44px;cursor:pointer;box-shadow:inset 0 -3px 0 #c9741f,0 4px 0 var(--accd)}
+button.alt{background:#e9d6b8;box-shadow:inset 0 -3px 0 #c2ab88,0 4px 0 #7d6a50}
+button:hover{filter:brightness(1.08)}
+button:active{transform:translateY(2px);box-shadow:0 2px 0 var(--accd)}
+button:focus-visible{outline:3px solid #fff;outline-offset:3px}
+button[aria-pressed="true"]{background:#c9b8a6}
+
+/* cards */
+.legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:14px;margin-top:22px}
+.card{background:var(--card);border:2px solid var(--line);border-radius:10px;padding:14px 16px;box-shadow:4px 4px 0 #0005}
+.card h2{font:11px/1.4 "Press Start 2P",monospace;margin:0 0 10px;color:var(--acc)}
+.card h3{font:10px/1.4 "Press Start 2P",monospace;margin:14px 0 8px;color:#ffd08a}
+.card.p1 h2{color:var(--p1)}.card.p2 h2{color:var(--p2)}
+.card.wide{grid-column:1/-1}
+dl{display:grid;grid-template-columns:auto 1fr;gap:6px 12px;margin:0;font-size:15px}
+dt{white-space:nowrap}dd{margin:0;color:var(--mute)}
+kbd{font:11px/1 "Press Start 2P",monospace;background:#f6ead6;color:#2a140a;border-radius:4px;padding:4px 6px;box-shadow:0 2px 0 #9a8670;display:inline-block;margin:1px 0}
+.super{color:var(--acc);font-weight:600}
+ol.steps{margin:0;padding-left:1.3em;color:var(--mute)}
+ol.steps li{margin:2px 0}
+ol.steps b{color:var(--ink)}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:0 24px}
+ul.list{list-style:none;margin:0;padding:0;font-size:15px}
+ul.list li{padding:5px 0;border-top:1px dashed #4a2c4c;color:var(--mute);overflow-wrap:anywhere}
+ul.list li:first-child{border-top:0}
+ul.list b{color:var(--ink)}
+.sw{display:inline-block;width:10px;height:10px;margin-right:8px;vertical-align:0;box-shadow:inset -2px -2px 0 #0005}
+.foot{margin:18px 0 0;color:var(--mute);font-size:14px}
+.note{margin-top:14px;padding:10px 14px;border-left:4px solid var(--acc);background:#22122a;color:var(--mute);font-size:14px}
+.note b{color:var(--ink)}
+footer{padding-bottom:40px}
+@media (max-width:420px){dl{font-size:14px;gap:6px 8px}.card{padding:12px}button{padding:10px 10px;font-size:10px}}
+@media (prefers-reduced-motion:reduce){h1{transform:none}}
+</style>
+</head>
+<body>
+<header class="wrap">
+  <div class="brand">
+    <!-- original pixel pumpkin pie slice -->
+    <svg viewBox="0 0 16 14" aria-hidden="true" shape-rendering="crispEdges">
+      <path fill="#2a140a" d="M1 9h1V8h2V7h2V6h2V5h2V4h2V3h2V2h2v1h1v7h-1v3H1z"/>
+      <path fill="#d98a3a" d="M2 10h12v2H2z"/>
+      <path fill="#f2a03d" d="M2 9h2V8h2V7h2V6h2V5h2V4h2V3h1v6H2z"/>
+      <path fill="#b8662a" d="M2 11h12v1H2z"/>
+      <path fill="#f6ead6" d="M8 3h3v1h1v1H7V4h1z"/>
+      <path fill="#ffd08a" d="M5 8h2v1H5zM10 6h2v1h-2z"/>
+    </svg>
+    <h1>Stuffed <span class="amp">&amp;</span> Furious</h1>
+  </div>
+  <p>A goofy 16-bit Thanksgiving food brawl for two. Pie to the face, gravy to the shins. Keyboard or USB controllers.</p>
+</header>
+<main class="wrap">
+  <div class="cab">
+    <div class="marquee" aria-hidden="true"><i></i><b>STUFFED &amp; FURIOUS</b><i></i></div>
+    <div class="screen" id="screen"><canvas id="game" width="320" height="180" tabindex="0" aria-label="Stuffed &amp; Furious game screen"></canvas><div class="scan" aria-hidden="true"></div></div>
+    <div class="bar">
+      <div class="pads">
+        <span><i class="dot" id="d1"></i><b id="s1">P1: keyboard</b></span>
+        <span><i class="dot" id="d2"></i><b id="s2">P2: keyboard</b></span>
+      </div>
+      <div class="btns">
+        <button id="mute" type="button" class="alt" aria-pressed="false">Mute music</button>
+        <button id="crt" type="button" class="alt" aria-pressed="true">Scanlines on</button>
+        <button id="fs" type="button">Fullscreen</button>
+      </div>
+    </div>
+  </div>
+
+  <section class="legend" aria-label="Controls">
+    <div class="card"><h2>Gamepad</h2><dl>
+      <dt>Stick / D-pad</dt><dd>Move, menus</dd>
+      <dt><kbd>A</kbd> or up</dt><dd>Jump, confirm</dd>
+      <dt><kbd>X</kbd> <kbd>B</kbd></dt><dd>Throw food (B = back in menus)</dd>
+      <dt><kbd>Y</kbd></dt><dd>Switch food</dd>
+      <dt><kbd>LB</kbd> <kbd>RB</kbd></dt><dd>Block with a plate (LT/RT too)</dd>
+      <dt><kbd>X</kbd>+<kbd>Y</kbd></dt><dd><span class="super">SUPER</span> (or B+Y) when meter is full</dd>
+      <dt><kbd>Start</kbd></dt><dd>Pause</dd></dl></div>
+    <div class="card p1"><h2>Player 1 keys</h2><dl>
+      <dt><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd></dt><dd>Move, W jumps</dd>
+      <dt><kbd>F</kbd></dt><dd>Throw, confirm</dd>
+      <dt><kbd>G</kbd></dt><dd>Switch food, back</dd>
+      <dt><kbd>H</kbd></dt><dd>Block</dd>
+      <dt><kbd>F</kbd>+<kbd>G</kbd></dt><dd><span class="super">SUPER</span> when meter is full</dd>
+      <dt><kbd>Enter</kbd></dt><dd>Start, pause</dd>
+      <dt><kbd>M</kbd></dt><dd>Mute music</dd></dl></div>
+    <div class="card p2"><h2>Player 2 keys</h2><dl>
+      <dt>Arrow keys</dt><dd>Move, up jumps</dd>
+      <dt><kbd>.</kbd> or <kbd>Num1</kbd></dt><dd>Throw, confirm</dd>
+      <dt><kbd>/</kbd> or <kbd>Num2</kbd></dt><dd>Switch food, back</dd>
+      <dt><kbd>,</kbd> or <kbd>Num3</kbd></dt><dd>Block</dd>
+      <dt><kbd>.</kbd>+<kbd>/</kbd></dt><dd><span class="super">SUPER</span> when meter is full</dd></dl></div>
+
+    <div class="card wide"><h2>How to play</h2>
+      <ol class="steps">
+        <li><b>Pick a fighter</b>, then <b>pack 3 foods</b> for your plate.</li>
+        <li><b>Pick an arena</b>. Best of 3 rounds, 60 seconds each.</li>
+        <li>Out of time? <b>More health left wins</b> the round.</li>
+        <li>Land hits to fill your super meter, then fire your <span class="super">SUPER</span>.</li>
+      </ol>
+      <div class="cols">
+        <div><h3>The menu</h3><ul class="list">
+          <li><i class="sw" style="background:#c8283c"></i><b>Cranberry</b>: sticky, slows them down</li>
+          <li><i class="sw" style="background:#efe6d0"></i><b>Mash Potato</b>: lobbed, splashes on landing</li>
+          <li><i class="sw" style="background:#e08a2c"></i><b>Pumpkin Pie</b>: big knockback</li>
+          <li><i class="sw" style="background:#a0582a"></i><b>Drumstick</b>: heavy hit that stuns</li>
+          <li><i class="sw" style="background:#7a4a20"></i><b>Hot Gravy</b>: burns over time</li>
+          <li><i class="sw" style="background:#f2d23a"></i><b>Corn Cob</b>: 3-way spread shot</li>
+          <li><i class="sw" style="background:#b88a4a"></i><b>Stuffing</b>: steals health back for you</li>
+        </ul></div>
+        <div><h3>The family</h3><ul class="list">
+          <li><b>Pilgrim Pete</b>: balanced all-rounder. Super: <span class="super">CORN CANNON</span></li>
+          <li><b>Tom Turkey</b>: light, can double jump. Super: <span class="super">FEATHER FURY</span></li>
+          <li><b>Grandma Gert</b>: slowly heals. Super: <span class="super">ROLLING PIN</span></li>
+          <li><b>Uncle Buck</b>: throws 25% harder. Super: <span class="super">HAIL MARY</span></li>
+          <li><b>Pumpkin Knight</b>: iron-rind block. Super: <span class="super">JACK-O-BLAST</span></li>
+          <li><b>Chef Basil</b>: 30% faster reload. Super: <span class="super">FLAMBE</span></li>
+        </ul></div>
+      </div>
+    </div>
+  </section>
+
+  <p class="note"><b>Controllers:</b> press any button once after plugging in so the browser can detect the pad (a browser privacy rule). The first controller is Player 1, the second is Player 2, and the keyboard works alongside them. Works in Chrome, Edge and Firefox.</p>
+</main>
+<footer class="wrap"><p class="foot">Stuffed &amp; Furious. Wash your hands before seconds.</p></footer>
+<script src="js/art.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/ai.js"></script>
+<script src="js/game.js"></script>
+<script>
+(function(){
+  var mute=document.getElementById('mute'),crt=document.getElementById('crt'),scr=document.getElementById('screen');
+  function setMute(m){mute.setAttribute('aria-pressed',m?'true':'false');mute.textContent=m?'Unmute music':'Mute music'}
+  function sync(){try{if(typeof Music!=='undefined'&&Music)setMute(!!Music.muted)}catch(e){}}
+  sync();
+  mute.addEventListener('click',function(){
+    var was=mute.getAttribute('aria-pressed')==='true';
+    window.dispatchEvent(new Event('sf-mute'));
+    setMute(!was);
+    setTimeout(sync,0);
+  });
+  window.addEventListener('keydown',function(e){if(e.key==='m'||e.key==='M')setTimeout(sync,0)});
+  var off=false;try{off=localStorage.getItem('sf-scan')==='0'}catch(e){}
+  function setScan(){scr.classList.toggle('noscan',off);crt.setAttribute('aria-pressed',off?'false':'true');crt.textContent=off?'Scanlines off':'Scanlines on'}
+  setScan();
+  crt.addEventListener('click',function(){off=!off;setScan();try{localStorage.setItem('sf-scan',off?'0':'1')}catch(e){}});
+})();
+</script>
+</body>
+</html>
