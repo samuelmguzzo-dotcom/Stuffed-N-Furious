@@ -68,6 +68,7 @@ addEventListener('gamepadconnected',()=>{padStatus();sfx(660,.1);sfx(990,.15)});
 
 /* ---------- text ---------- */
 function T(s,x,y,col,al,sz){ctx.font=(sz||8)+'px '+FONT;ctx.textAlign=al||'left';ctx.textBaseline='top';ctx.fillStyle=INK;ctx.fillText(s,x+1,y+1);ctx.fillStyle=col||'#fff';ctx.fillText(s,x,y)}
+function wrapT(s,x,y,maxW,col){ctx.font='8px '+FONT;const L=[];let cur='';for(const w of s.split(' ')){const t=cur?cur+' '+w:w;if(cur&&ctx.measureText(t).width>maxW){L.push(cur);cur=w}else cur=t}L.push(cur);L.forEach((l,i)=>T(l,x,y+i*10,col,'center',8))}
 function TO(s,x,y,col,al,sz){ctx.font=sz+'px '+FONT;ctx.textAlign=al||'center';ctx.textBaseline='top';ctx.fillStyle=INK;const o=sz>=16?2:1;for(let dx=-o;dx<=o;dx++)for(let dy=-o;dy<=o+1;dy++)ctx.fillText(s,x+dx,y+dy);ctx.fillStyle=col;ctx.fillText(s,x,y)}
 function bar(x,y,w,h,f,col){R(ctx,x-1,y-1,w+2,h+2,INK);R(ctx,x,y,w,h,'#3a2a3a');R(ctx,x,y,Math.max(0,Math.min(1,f))*w,h,col)}
 
@@ -323,7 +324,7 @@ function renderFoods(){ctx.drawImage(MENU,0,0);TO('PACK YOUR PLATE: PICK 3',160,
   for(let k=0;k<3;k++){const x=x0+6+k*22;R(ctx,x,142,20,20,INK);R(ctx,x+1,143,18,18,'#3d2440');if(L[k]!==undefined)ctx.drawImage(FOODS[L[k]].img,x+1,143,18,18)}
   T(L.length<3?'PICK '+(3-L.length):(frame%40<28?'READY!':''),x0+76,148,L.length<3?'#c9b8a6':'#7ee07a')}}
 function renderStage(){ctx.drawImage(MENU,0,0);TO('CHOOSE THE ARENA',160,12,'#ffd34a','center',8);
- STAGES.forEach((s,k)=>{const x=10+k*102,y=48,on=sel.stage===k;R(ctx,x-2,y-2,100,58,on?PCOL[0]:INK);ctx.drawImage(s.bg,x,y,96,54);T(s.n,x+48,y+64,on?'#fff':'#c9b8a6','center',8)});
+ STAGES.forEach((s,k)=>{const x=10+k*102,y=48,on=sel.stage===k;R(ctx,x-2,y-2,100,58,on?PCOL[0]:INK);ctx.drawImage(s.bg,x,y,96,54);wrapT(s.n,x+48,y+62,88,on?'#fff':'#c9b8a6')});
  const big=STAGES[sel.stage];T('< '+big.n+' >',160,30,'#fff','center',8);T('A/F: FIGHT!   B/G: BACK',160,150,'#c9b8a6','center',8);T('BEST OF 3 ROUNDS',160,164,'#ffb347','center',8)}
 function renderOver(){drawStage();drawAmb();R(ctx,0,0,W,H,'rgba(26,15,20,.35)');const w=pl[winner],l=pl[1-winner],hop=Math.abs(Math.sin(ot/8))*10;
  const li=poseImg(l.c,'hurt',false)||l.c.f[0];spr(li,210,G-li.height*2,2,true);
